@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Content Detector - AWARE Framework</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/static/styles.css?v=6" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="top-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>AI Content Detector</span>
+                </div>
+                <div class="header-meta">
+                    <span class="version-badge">v2.0 Enhanced</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Detect AI-Generated Content <span class="highlight">Instantly</span></h1>
+                <p class="hero-subtitle">Upload or paste your text and get a detailed analysis in seconds. Our advanced AI detection system checks over 50+ markers across 10 categories.</p>
+                <div class="features-row">
+                    <div class="feature-tag">
+                        <i class="fas fa-check-circle"></i>
+                        <span>10+ Analysis Dimensions</span>
+                    </div>
+                    <div class="feature-tag">
+                        <i class="fas fa-bolt"></i>
+                        <span>Instant Results</span>
+                    </div>
+                    <div class="feature-tag">
+                        <i class="fas fa-lock"></i>
+                        <span>Secure & Private</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Step Indicator -->
+            <div class="steps-indicator">
+                <div class="step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Upload Content</div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Analyze</div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">View Results</div>
+                </div>
+            </div>
+
+            <!-- Upload Section -->
+            <div class="card upload-card" id="uploadSection">
+                <div class="card-header">
+                    <h2>
+                        <i class="fas fa-upload"></i>
+                        Upload Your Content
+                    </h2>
+                    <p>Choose how you want to submit your text for analysis</p>
+                </div>
+
+                <!-- Input Method Tabs -->
+                <div class="input-tabs">
+                    <button class="tab-btn active" data-tab="paste">
+                        <i class="fas fa-paste"></i>
+                        <span>Paste Text</span>
+                    </button>
+                    <button class="tab-btn" data-tab="upload">
+                        <i class="fas fa-file-upload"></i>
+                        <span>Upload File</span>
+                    </button>
+                </div>
+
+                <!-- Paste Tab -->
+                <div class="tab-content active" id="pasteTab">
+                    <div class="input-group">
+                        <label for="textInput">
+                            Paste Your Text Here
+                            <span class="tooltip-icon" data-tooltip="Paste the text you want to check for AI-generated content">
+                                <i class="fas fa-question-circle"></i>
+                            </span>
+                        </label>
+                        <textarea
+                            id="textInput"
+                            placeholder="Paste your document, essay, article, or any text here. The more text you provide (at least 300 words recommended), the more accurate the analysis will be..."
+                            rows="10"
+                        ></textarea>
+                        <div class="input-meta">
+                            <span id="wordCount" class="word-counter">0 words</span>
+                            <span class="hint">Minimum 100 words recommended</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upload Tab -->
+                <div class="tab-content" id="uploadTab">
+                    <div class="upload-zone" id="dropZone">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Drag & Drop Your File Here</h3>
+                        <p>or click to browse</p>
+                        <button type="button" class="btn-outline" id="browseBtn">
+                            <i class="fas fa-folder-open"></i>
+                            Choose File
+                        </button>
+                        <input type="file" id="fileInput" accept=".doc,.docx,.txt,.md,.pdf" hidden />
+                        <div class="file-info" id="fileInfo"></div>
+                        <div class="supported-formats">
+                            <span>Supported: .docx, .doc, .txt, .md, .pdf</span>
+                            <span>Max size: 10 MB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Optional: Original File for Comparison -->
+                <div class="optional-section">
+                    <div class="optional-header">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="origToggle" />
+                            <span class="checkmark"></span>
+                            <span class="label-text">
+                                Compare with original document
+                                <span class="tooltip-icon" data-tooltip="Upload the original document to detect edits and changes. This enables advanced comparison features.">
+                                    <i class="fas fa-question-circle"></i>
+                                </span>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="optional-content hidden" id="originalSection">
+                        <div class="upload-zone small" id="originalDropZone">
+                            <i class="fas fa-file"></i>
+                            <p>Upload original document for comparison</p>
+                            <button type="button" class="btn-sm" id="origBrowseBtn">
+                                Choose Original
+                            </button>
+                            <input type="file" id="originalInput" accept=".doc,.docx,.txt,.md,.pdf" hidden />
+                            <div class="file-info" id="originalFileInfo"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="card-footer">
+                    <button id="analyzeBtn" class="btn-primary">
+                        <i class="fas fa-search"></i>
+                        <span>Analyze Content</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <div class="status-message" id="statusMessage">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Ready to analyze</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Animation -->
+            <div class="loading-overlay hidden" id="loadingOverlay">
+                <div class="loading-content">
+                    <div class="loader"></div>
+                    <h3>Analyzing Your Content...</h3>
+                    <p id="loadingStatus">Running advanced AI detection algorithms</p>
+                    <div class="loading-steps">
+                        <div class="loading-step active">
+                            <i class="fas fa-check"></i>
+                            <span>Processing document</span>
+                        </div>
+                        <div class="loading-step">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <span>Analyzing patterns</span>
+                        </div>
+                        <div class="loading-step">
+                            <i class="fas fa-hourglass-half"></i>
+                            <span>Calculating scores</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section hidden" id="resultsSection">
+                <!-- Overall Score Card -->
+                <div class="score-card">
+                    <div class="score-header">
+                        <h2>Analysis Results</h2>
+                        <button class="btn-outline btn-sm" onclick="window.print()">
+                            <i class="fas fa-print"></i>
+                            Print Report
+                        </button>
+                    </div>
+
+                    <div class="score-display">
+                        <div class="score-circle">
+                            <svg class="score-ring" viewBox="0 0 200 200">
+                                <circle class="score-ring-bg" cx="100" cy="100" r="85"></circle>
+                                <circle class="score-ring-fill" id="scoreRing" cx="100" cy="100" r="85"></circle>
+                            </svg>
+                            <div class="score-text">
+                                <div class="score-value" id="scoreValue">0</div>
+                                <div class="score-max">/ 100</div>
+                            </div>
+                        </div>
+
+                        <div class="score-details">
+                            <div class="score-classification">
+                                <div class="classification-badge" id="classificationBadge">
+                                    LOW RISK
+                                </div>
+                                <div class="classification-label">AI Detection Level</div>
+                            </div>
+
+                            <div class="score-stats">
+                                <div class="stat-item">
+                                    <div class="stat-label">Confidence</div>
+                                    <div class="stat-value" id="confidenceValue">HIGH</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">Document Type</div>
+                                    <div class="stat-value" id="docType">General</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-label">Word Count</div>
+                                    <div class="stat-value" id="docWords">0</div>
+                                </div>
+                            </div>
+
+                            <div class="recommendation-box" id="recommendationBox">
+                                <div class="rec-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div class="rec-content">
+                                    <h4>Recommendation</h4>
+                                    <p id="recommendationText">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon red">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="triggeredCount">0</div>
+                            <div class="stat-title">AI Markers Detected</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="categoriesActive">0</div>
+                            <div class="stat-title">Categories Flagged</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="humanIndicators">0</div>
+                            <div class="stat-title">Human Indicators</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-puzzle-piece"></i>
+                        </div>
+                        <div class="stat-info">
+                            <div class="stat-number" id="patternMatches">0</div>
+                            <div class="stat-title">Pattern Matches</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Analysis Tabs -->
+                <div class="analysis-tabs">
+                    <div class="tab-nav">
+                        <button class="analysis-tab active" data-analysis-tab="overview">
+                            <i class="fas fa-chart-pie"></i>
+                            Overview
+                        </button>
+                        <button class="analysis-tab" data-analysis-tab="categories">
+                            <i class="fas fa-list-check"></i>
+                            Categories
+                        </button>
+                        <button class="analysis-tab" data-analysis-tab="advanced">
+                            <i class="fas fa-brain"></i>
+                            Advanced Metrics
+                        </button>
+                        <button class="analysis-tab" data-analysis-tab="evidence">
+                            <i class="fas fa-quote-right"></i>
+                            Evidence
+                        </button>
+                    </div>
+
+                    <!-- Overview Tab -->
+                    <div class="analysis-content active" id="overviewTab">
+                        <div class="card">
+                            <h3>
+                                <i class="fas fa-chart-bar"></i>
+                                Category Breakdown
+                            </h3>
+                            <div id="categoryChart" class="category-chart"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>
+                                <i class="fas fa-puzzle-piece"></i>
+                                Pattern Correlations
+                                <span class="info-badge" data-tooltip="Combinations of markers that strongly indicate AI generation">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                            </h3>
+                            <div id="compositePatterns" class="pattern-list"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>
+                                <i class="fas fa-user"></i>
+                                Human Writing Indicators
+                                <span class="info-badge" data-tooltip="Features that suggest human authorship">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                            </h3>
+                            <div id="humanIndicators" class="indicator-list"></div>
+                        </div>
+                    </div>
+
+                    <!-- Categories Tab -->
+                    <div class="analysis-content" id="categoriesTab">
+                        <div class="card">
+                            <div class="card-header-row">
+                                <h3>All Detection Markers</h3>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="showOnlyTriggered" />
+                                    <span class="toggle-slider"></span>
+                                    <span class="toggle-label">Show only detected</span>
+                                </label>
+                            </div>
+                            <div id="markersTable" class="markers-table"></div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Metrics Tab -->
+                    <div class="analysis-content" id="advancedTab">
+                        <div class="metrics-row">
+                            <div class="card metric-card">
+                                <h4>
+                                    <i class="fas fa-book"></i>
+                                    Lexical Diversity
+                                </h4>
+                                <div id="lexicalMetrics" class="metric-values"></div>
+                            </div>
+                            <div class="card metric-card">
+                                <h4>
+                                    <i class="fas fa-graduation-cap"></i>
+                                    Readability Scores
+                                </h4>
+                                <div id="readabilityMetrics" class="metric-values"></div>
+                            </div>
+                        </div>
+                        <div class="metrics-row">
+                            <div class="card metric-card">
+                                <h4>
+                                    <i class="fas fa-wave-square"></i>
+                                    Burstiness Analysis
+                                </h4>
+                                <div id="burstinessMetrics" class="metric-values"></div>
+                            </div>
+                            <div class="card metric-card">
+                                <h4>
+                                    <i class="fas fa-calculator"></i>
+                                    Statistical Analysis
+                                </h4>
+                                <div id="statisticalMetrics" class="metric-values"></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>
+                                <i class="fas fa-percent"></i>
+                                Bayesian Probability Analysis
+                            </h3>
+                            <div id="bayesianAnalysis" class="bayesian-display"></div>
+                        </div>
+                    </div>
+
+                    <!-- Evidence Tab -->
+                    <div class="analysis-content" id="evidenceTab">
+                        <div class="card">
+                            <h3>
+                                <i class="fas fa-quote-right"></i>
+                                Flagged Text Excerpts
+                            </h3>
+                            <p class="card-description">Specific examples from your text that triggered AI detection markers</p>
+                            <div id="evidenceList" class="evidence-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="results-actions">
+                    <button class="btn-outline" onclick="location.reload()">
+                        <i class="fas fa-redo"></i>
+                        Analyze Another Document
+                    </button>
+                    <button class="btn-outline" id="exportBtn">
+                        <i class="fas fa-download"></i>
+                        Export Report (JSON)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 AWARE AI Detection Framework v2.0 Enhanced | Powered by Advanced Analytics</p>
+                <div class="footer-links">
+                    <a href="#" onclick="showAbout(); return false;">About</a>
+                    <a href="#" onclick="showHelp(); return false;">Help</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Tooltip Container -->
+    <div class="tooltip-popup" id="tooltipPopup"></div>
+
+    <script src="/static/app.js?v=6"></script>
+</body>
+</html>
